@@ -1,0 +1,135 @@
+version: "3.9"
+services:
+
+  # api-1
+  api-01: &api
+    image: jo1opedro/php83-missing-pets-api-2024:v1
+    container_name: missing-pets-api-1
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        PHP_VERSION: '8.3.3-bullseye'
+      target: "${BUILD_TARGET:-app}"
+    volumes:
+      - ./app/storage:/var/www/app/storage
+    networks:
+      - my-shared-network
+    env_file:
+      - ./app/.env
+    environment:
+      LARAVEL_OCTANE_PORT: '8000'
+    ports:
+      - "7070:8000"
+
+  # api-2
+  api-02:
+    <<: *api
+    image: jo1opedro/php83-missing-pets-api-2024:v1
+    container_name: missing-pets-api-2
+    networks:
+      - my-shared-network
+    environment:
+      LARAVEL_OCTANE_PORT: '7000'
+    ports:
+      - "4080:7000"
+
+  # mysql
+  banco_de_dados_relacional:
+    image: mysql:latest
+    ports:
+      - '5306:3306'
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    volumes:
+      - ./docker/backup_banco_de_dados_relacional/database:/var/lib/mysql
+    networks:
+      - my-shared-network
+
+  # phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - "8003:80"
+    volumes:
+      - ./docker/phpmyadmin/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    environment:
+      #PMA_ARBITRARY: 1
+      PMA_HOST: banco_de_dados_relacional
+    depends_on:
+      - banco_de_dados_relacional
+    networks:
+      - my-shared-network
+
+  # Redis
+  redis:
+      image: redis:alpine
+      ports:
+        - "6379:6379"
+      volumes:
+        - "./app/redis:/data"
+      networks:
+        - my-shared-network
+      healthcheck:
+        test:
+          - CMD
+          - redis-cli
+          - ping
+        retries: 3
+        timeout: 5s
+      deploy:
+        replicas: 1
+        resources:
+          limits:
+            cpus: "0.5"
+            memory: 200M
+          reservations:
+            cpus: "0.1"
+            memory: 20M
+        restart_policy:
+          condition: on-failure
+      command: ["redis-server", "--bind", "0.0.0.0"]
+
+  #nginx
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./docker/nginx/sites.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/access.log:/var/log/nginx/access.log
+    depends_on:
+      - api-01
+      - api-02
+    ports:
+      - "8888:8888"
+    networks:
+      - my-shared-network
+
+  mensageria:
+    image: rabbitmq:management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - my-shared-network
+
+  #ui for redis
+  #redisinsight:
+  #  image: redislabs/redisinsight:latest
+  #  ports:
+  #    - "5540:5540"
+  #  volumes:
+  #    - ./docker/redis/ui:/db
+  #  networks:
+  #    - my-shared-network
+
+networks:
+  my-shared-network:
+    driver: bridge

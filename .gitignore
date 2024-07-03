@@ -1,0 +1,4 @@
+.idea
+docker/backup_banco_de_dados_relacional
+docker/nginx/access.log
+.env

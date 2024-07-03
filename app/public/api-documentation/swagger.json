@@ -1,0 +1,550 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API missing-pets Swagger Documentation",
+        "contact": {
+            "email": "joao.pedreira@estudante.ufjf.br"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Sanctum Authentication"
+                ],
+                "summary": "Get an authentication user token",
+                "description": "This endpoint returns a new token user authentication for use on protected endpoints",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "gabriel_nunes@example.org"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "required": [
+                                                "token",
+                                                "token_type",
+                                                "expires_in"
+                                            ],
+                                            "properties": {
+                                                "token": {
+                                                    "description": "The access token",
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "description": "The type of token",
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "bearer"
+                                                    ]
+                                                },
+                                                "expires_in": {
+                                                    "description": "The expiration time of the token in minutes",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Incorrect credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials are incorrect."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pet/posts": {
+            "get": {
+                "tags": [
+                    "Pet posts"
+                ],
+                "summary": "Get all pet posts paginated",
+                "description": "This endpoint return all pet posts paginated",
+                "operationId": "getPetPosts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number (optional)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": "1"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "current_page": {
+                                            "description": "The current page paginated",
+                                            "type": "string"
+                                        },
+                                        "data": {
+                                            "description": "The posts returned",
+                                            "type": "object"
+                                        },
+                                        "first_page_url": {
+                                            "description": "The url from the first 15 posts",
+                                            "type": "string"
+                                        },
+                                        "last_page": {
+                                            "description": "The number of the last page",
+                                            "type": "string"
+                                        },
+                                        "last_page_url": {
+                                            "description": "The url from the last 15 posts",
+                                            "type": "string"
+                                        },
+                                        "links": {
+                                            "description": "The url to the previous and next page",
+                                            "type": "object"
+                                        },
+                                        "next_page_url": {
+                                            "description": "The url to the next page",
+                                            "type": "string"
+                                        },
+                                        "per_page": {
+                                            "description": "The number of posts per page",
+                                            "type": "string"
+                                        },
+                                        "prev_page_url": {
+                                            "description": "The url to the previous page",
+                                            "type": "string"
+                                        },
+                                        "to": {
+                                            "description": "The url to the previous page",
+                                            "type": "string"
+                                        },
+                                        "total": {
+                                            "description": "The url to the previous page",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pet posts"
+                ],
+                "summary": "Register a new pet post",
+                "description": "This endpoint register a new pet post",
+                "operationId": "registerPetPost",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "user_id",
+                                    "coordinate_x",
+                                    "coordinate_y",
+                                    "breed",
+                                    "type",
+                                    "additional_info"
+                                ],
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User's id.",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "coordinate_x": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "coordinate_y": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "breed": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    },
+                                    "additional_info": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "required": [
+                                                "user_id",
+                                                "coordinate_x",
+                                                "coordinate_y",
+                                                "breed",
+                                                "type",
+                                                "additional_info",
+                                                "updated_at",
+                                                "created_at",
+                                                "id"
+                                            ],
+                                            "properties": {
+                                                "user_id": {
+                                                    "description": "The access User's id its vinculated",
+                                                    "type": "integer"
+                                                },
+                                                "coordinate_x": {
+                                                    "description": "Coordenate x where the pet was last seen",
+                                                    "type": "integer"
+                                                },
+                                                "coordinate_y": {
+                                                    "description": "Coordenate y where the pet was last seen",
+                                                    "type": "integer"
+                                                },
+                                                "breed": {
+                                                    "description": "Breed of the lost animal",
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "description": "",
+                                                    "type": "string"
+                                                },
+                                                "additional_info": {
+                                                    "description": "Additional info to help find the pet",
+                                                    "type": "string"
+                                                },
+                                                "updated_at": {
+                                                    "description": "",
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "description": "",
+                                                    "type": "string"
+                                                },
+                                                "id": {
+                                                    "description": "",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/pet/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Pet posts"
+                ],
+                "summary": "Register a new pet post",
+                "description": "This endpoint register a new pet post",
+                "operationId": "getSpecificPetPost",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the pet post",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "required": [
+                                                "user_id",
+                                                "coordinate_x",
+                                                "coordinate_y",
+                                                "breed",
+                                                "type",
+                                                "additional_info",
+                                                "updated_at",
+                                                "created_at",
+                                                "id",
+                                                "user"
+                                            ],
+                                            "properties": {
+                                                "user_id": {
+                                                    "description": "The access User's id its vinculated",
+                                                    "type": "integer"
+                                                },
+                                                "coordinate_x": {
+                                                    "description": "Coordenate x where the pet was last seen",
+                                                    "type": "integer"
+                                                },
+                                                "coordinate_y": {
+                                                    "description": "Coordenate y where the pet was last seen",
+                                                    "type": "integer"
+                                                },
+                                                "breed": {
+                                                    "description": "Breed of the lost animal",
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "description": "",
+                                                    "type": "string"
+                                                },
+                                                "additional_info": {
+                                                    "description": "Additional info to help find the pet",
+                                                    "type": "string"
+                                                },
+                                                "updated_at": {
+                                                    "description": "",
+                                                    "type": "string"
+                                                },
+                                                "created_at": {
+                                                    "description": "",
+                                                    "type": "string"
+                                                },
+                                                "id": {
+                                                    "description": "",
+                                                    "type": "integer"
+                                                },
+                                                "data": {
+                                                    "required": [
+                                                        "id",
+                                                        "name",
+                                                        "email",
+                                                        "email_verified_at",
+                                                        "created_at",
+                                                        "updated_at"
+                                                    ],
+                                                    "properties": {
+                                                        "id": {
+                                                            "description": "",
+                                                            "type": "integer"
+                                                        },
+                                                        "name": {
+                                                            "description": "",
+                                                            "type": "string"
+                                                        },
+                                                        "email": {
+                                                            "description": "",
+                                                            "type": "string"
+                                                        },
+                                                        "email_verified_at": {
+                                                            "description": "",
+                                                            "type": "string"
+                                                        },
+                                                        "created_at": {
+                                                            "description": "",
+                                                            "type": "string"
+                                                        },
+                                                        "updated_at": {
+                                                            "description": "",
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "User Register"
+                ],
+                "summary": "Register a new user",
+                "description": "This endpoint register a new user and returns his autentication code",
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "User's email address. Must be unique.",
+                                        "type": "string",
+                                        "example": "gabriel"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "gabriel_nunes@example.org"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Confirmation of the password. Must match the password field.",
+                                        "type": "string",
+                                        "example": "#sdasd$ssdaAA@"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Token generated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "required": [
+                                                "token",
+                                                "token_type",
+                                                "expires_in"
+                                            ],
+                                            "properties": {
+                                                "token": {
+                                                    "description": "The access token",
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "description": "The type of token",
+                                                    "type": "string",
+                                                    "enum": [
+                                                        "bearer"
+                                                    ]
+                                                },
+                                                "expires_in": {
+                                                    "description": "The expiration time of the token in minutes",
+                                                    "type": "integer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Incorrect credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials are incorrect."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Acess token obtido na autenticação",
+                "name": "Authorization",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

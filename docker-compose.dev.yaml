@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+
+  # api-1
+  api-01: &api
+    extra_hosts:
+      # Ensure that host.docker.internal is correctly defined on Linux
+      - host.docker.internal:host-gateway
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: "${BUILD_TARGET:-app_dev}"
+      args:
+        PHP_VERSION: '8.3.3-bullseye'
+    volumes:
+      - ./app:/var/www/app
