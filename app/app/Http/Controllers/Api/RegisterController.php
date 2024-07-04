@@ -7,6 +7,24 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Services\UserService;
 
+/**
+ * @OA\Info(
+ *   title="API GithubAnalyzer Swagger Documentation",
+ *   version="1.0",
+ *   contact={
+ *     "email": "joao.pedreira@estudante.ufjf.br"
+ *   }
+ * )
+ * @OA\SecurityScheme(
+ *  type="http",
+ *  description="Acess token obtido na autenticação",
+ *  name="Authorization",
+ *  in="header",
+ *  scheme="bearer",
+ *  bearerFormat="JWT",
+ *  securityScheme="bearerAuth"
+ * )
+ */
 class RegisterController extends Controller
 {
     public function __construct(
@@ -27,9 +45,10 @@ class RegisterController extends Controller
      *                 required={"name","email","password","password_confirmation"},
      *                 @OA\Property(property="name", type="string", example="gabriel", description="User's email address. Must be unique."),
      *                 @OA\Property(property="email", type="string", example="gabriel_nunes@example.org"),
-     *                 @OA\Property(property="password", type="string", example="#sdasd$ssdaAA@"),
-     *                 @OA\Property(property="password_confirmation", type="string", example="#sdasd$ssdaAA@", description="Confirmation of the password. Must match the password field.")
-     *             )
+     *                 @OA\Property(property="avatar_url", type="string", example="#sdasd$ssdaAA@"),
+     *                 @OA\Property(property="html_url", type="string", example="#sdasd$ssdaAA@"),
+     *                 @OA\Property(property="access_token", type="string", example="#sdasd$ssdaAA@"),
+     *              )
      *         ),
      *     ),
      *     @OA\Response(
@@ -37,26 +56,16 @@ class RegisterController extends Controller
      *         description="Token generated",
      *     @OA\JsonContent(
      *         @OA\Property(
-     *             property="data",
-     *             type="object",
-     *             required={"token", "token_type", "expires_in"},
-     *             @OA\Property(
-     *                 property="token",
-     *                 type="string",
-     *                 description="The access token"
-     *             ),
-     *             @OA\Property(
-     *                 property="token_type",
-     *                 type="string",
-     *                 enum={"bearer"},
-     *                 description="The type of token"
-     *             ),
-     *             @OA\Property(
-     *                 property="expires_in",
-     *                 type="integer",
-     *                 description="The expiration time of the token in minutes"
-     *              ),
-     *          )
+     *           property="token_type",
+     *           type="string",
+     *           enum={"bearer"},
+     *           description="The type of token"
+     *          ),
+     *          @OA\Property(
+     *            property="expires_in",
+     *            type="integer",
+     *            description="The expiration time of the token in minutes"
+     *          ),
      *      )
      *     ),
      *     @OA\Response(
