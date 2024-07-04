@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\DTO\UserDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
-use App\Mail\UserRegistered;
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
+use App\Services\UserService;
 
 class RegisterController extends Controller
 {
+    public function __construct(
+        private UserService $user_service
+    ) {}
+
     /**
      * @OA\Post(
      *     path="/api/register",
@@ -68,26 +70,8 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        $data = $request->validated();
-
-        /** @var User $user */
-        $user = User::updateOrCreate(
-            ['email' => $data['email']], // Critério de busca, e-mail deve estar aqui
-            [
-                'name' => $data['name'],
-                'user_id' => $data['user_id'],
-                'avatar_url' => $data['avatar_url'],
-                'html_url' => $data['html_url'],
-                "access_token" => $data["access_token"],
-            ]
+        return $this->user_service->create(
+            new UserDTO(...$request->validated())
         );
-        $token = $user->createToken(env('SECRET'))->plainTextToken;
-
-        Mail::to($user)->queue(new UserRegistered($user->name));
-
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
     }
 }
