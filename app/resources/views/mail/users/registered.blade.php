@@ -10,11 +10,10 @@
 
     Para começar, siga estes passos:
 
-    1. Acesse o site do Missing Pets: https://www.ejsocial.com.
-    2. Faça login com seu email e senha.
-    3. Crie um post do seu pet.
-    4. Compartilhe o seu post nas redes sociais e com amigos.
+    1. Acesse o site do GithubAnalyzer: https://www.desafio-reportei.ejsocial.com.
+    2. Faça login com sua conta do github.
+    3. Escolha um de seus repositorios publicos.
 
-    Estamos aqui para te ajudar a encontrar seu pet. Se você tiver alguma dúvida, entre em contato conosco pelo email http://www.desafio-reportei.ejsocial.com/help
+    Estamos aqui para te ajudar a avaliar seus repositorios. Se você tiver alguma dúvida, entre em contato conosco pelo email jpppedreira@gmail.com
 
 @endcomponent
