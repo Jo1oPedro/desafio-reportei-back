@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('user_id')->unique();
             $table->string('avatar_url');
             $table->string('html_url');
-            $table->string("access_token");
+            $table->string("access_token")->unique();
             $table->string('password')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
