@@ -1,22 +1,35 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\DTO\PaginationDTO;
+use App\DTO\RepositoryDTO;
 use App\Services\GithubService;
-use App\Services\Pagination;
 use Illuminate\Http\Request;
 
 class GithubRepositoryController
 {
     public function __construct(
-        private GithubService $githubService
+        private GithubService $github_service
     ) {}
 
     public function index(Request $request)
     {
-        $pagination = new Pagination(
+        $pagination = new PaginationDTO(
             $request->input('page', 1),
             $request->input('per_page', 10)
         );
-        return $this->githubService->getUserRepositories($pagination);
+        return $this->github_service->getUserRepositories($pagination);
+    }
+
+    public function show(Request $request, string $owner_name, string $name, string $repository_id)
+    {
+        $repository = new RepositoryDTO(
+            $name,
+            $owner_name,
+            auth()->user()->id,
+            $repository_id
+        );
+
+        return $this->github_service->getRepository($repository);
     }
 }
