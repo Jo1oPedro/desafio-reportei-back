@@ -79,8 +79,15 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request)
     {
-        return $this->user_service->create(
+        $user = $this->user_service->create(
             new UserDTO(...$request->validated())
         );
+
+        $token = $user->createToken(env('SECRET'))->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
     }
 }

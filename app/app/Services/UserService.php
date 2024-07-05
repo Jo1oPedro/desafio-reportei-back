@@ -9,27 +9,23 @@ use Illuminate\Support\Facades\Mail;
 
 class UserService
 {
-    public function create(UserDTO $user)
+    public function create(UserDTO $user): User
     {
         $user = User::updateOrCreate(
-            ['user_id' => $user->user_id],
+            ['github_id' => $user->getGithubId()],
             [
-                'name' => $user->name,
-                'email' => $user->email,
-                'avatar_url' => $user->avatar_url,
-                'html_url' => $user->html_url,
-                "access_token" => $user->access_token,
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'avatar_url' => $user->getAvatarUrl(),
+                'github_login' => $user->getGithubLogin(),
+                "access_token" => $user->getAccessToken(),
             ]
         );
-        $token = $user->createToken(env('SECRET'))->plainTextToken;
 
         if($user->wasRecentlyCreated) {
             Mail::to($user)->queue(new UserRegistered($user->name));
         }
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ]);
+        return $user;
     }
 }

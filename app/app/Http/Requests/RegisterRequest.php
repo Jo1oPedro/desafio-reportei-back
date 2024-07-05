@@ -24,9 +24,9 @@ class RegisterRequest extends FormRequest
         return [
             'name' => 'required|string',
             'email' => 'required|string|email',
-            "user_id" => "required|string",
+            "github_login" => "required|string",
+            "github_id" => "required|string",
             "avatar_url" => "required|string",
-            "html_url" => "required|string",
             "access_token" => "required|string",
         ];
     }
