@@ -24,6 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware("auth:sanctum")->group(function () {
     Route::get("/github/repositories", [GithubRepositoryController::class, "index"]);
+    Route::get("/github/repositories/{owner_name}/{repository_name}/{repository_id}", [GithubRepositoryController::class, "show"]);
 });
 
 Route::post('/register', [RegisterController::class, 'register']);
