@@ -12,10 +12,10 @@ class UserService
     public function create(UserDTO $user)
     {
         $user = User::updateOrCreate(
-            ['email' => $user->email],
+            ['user_id' => $user->user_id],
             [
                 'name' => $user->name,
-                'user_id' => $user->user_id,
+                'email' => $user->email,
                 'avatar_url' => $user->avatar_url,
                 'html_url' => $user->html_url,
                 "access_token" => $user->access_token,
