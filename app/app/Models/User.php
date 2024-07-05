@@ -54,8 +54,8 @@ class User extends Authenticatable
         $this->attributes['password'] = Hash::make($password);
     }
 
-    public function petPosts(): HasMany
+    public function repositories()
     {
-        return $this->hasMany(PetPost::class);
+        return $this->hasMany(Repository::class);
     }
 }
