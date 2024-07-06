@@ -10,7 +10,7 @@ class UserDTO
         private readonly string $avatar_url,
         private readonly string $github_login,
         private readonly string $github_id,
-        private readonly string $access_token
+        private readonly string $access_token,
     ) {}
 
     public function getName(): string
