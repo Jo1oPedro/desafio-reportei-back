@@ -16,7 +16,7 @@ class GithubRepositoryController
     {
         $pagination = new PaginationDTO(
             $request->input('page', 1),
-            $request->input('per_page', 10)
+            $request->input('per_page', 5)
         );
         return $this->github_service->getUserRepositories($pagination);
     }
