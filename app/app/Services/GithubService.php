@@ -20,10 +20,13 @@ class GithubService
     {
         if($cached) {
             $total_items = $this->cache_service->remember("totalRepositories", function () {
-                return $this->getTotalRepositories();
+                return $this->getTotalRepositoriesNumber();
             });
         } else {
-            $total_items = $this->getTotalRepositories();
+            $total_items = $this->getTotalRepositoriesNumber();
+            $this->cache_service
+                ->forget("totalRepositories")
+                ->put("totalRepositories", $total_items);
         }
 
         $response = $this->createHttpClient()
@@ -68,7 +71,7 @@ class GithubService
         ]);
     }
 
-    private function getTotalRepositories()
+    private function getTotalRepositoriesNumber()
     {
         $response = $this->createHttpClient()
             ->get("https://api.github.com/user/repos?page=1&per_page=1&affiliation=owner", [
