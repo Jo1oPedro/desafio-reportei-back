@@ -18,7 +18,10 @@ class GithubRepositoryController
             $request->input('page', 1),
             $request->input('per_page', 5)
         );
-        return $this->github_service->getUserRepositories($pagination);
+
+        $cache = (bool) $request->input("cache", true);
+
+        return $this->github_service->getUserRepositories($pagination, $cache);
     }
 
     public function show(Request $request, string $owner_name, string $name, string $repository_id)
