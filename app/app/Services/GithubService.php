@@ -63,86 +63,27 @@ class GithubService
     {
         /** @todo adicionar cache com redis pro repositoryid */
         $repository = $this->repository_service->create($repositoryDTO);
-        $since = $this->date_service->since(90);
         $response = $this->createHttpClient()
-            ->get("https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits", [
-                "page" => 1,
-                "per_page" => 1,
-                //"since" => $since
-            ]);
+            ->get("https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}");
 
-        try {
-            $total_page_numbers = (int) $this->getTotalPagesNumber($response->headers()["Link"][0]);
-        } catch (\Exception $error) {
-            $total_page_numbers = 1;
-        }
-
-        $commits_urls = [];
-        if($total_page_numbers > 1) {
-            for($page = 2; $page <= $total_page_numbers; $page++) {
-                $commits_urls[] = "https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits?page={$page}&per_page=1";
-            }
-
-            $responses = $this->createHttpClient()->pool(function (Pool $pool) use ($commits_urls) {
-                return collect($commits_urls)
-                    ->map(
-                        fn(string $url) => $pool->get($url)
-                    );
-            });
-
-            $results = collect($responses)
-                ->map(
-                    fn(Response $response) => $response->successful() ? $response->json() : $response->headers()
-                );
-
-        }
-
-        //return response()->json($results);
-        /*$array1 = [2, 4, 6, 8, 10];
-        $array2 = [1, 3, 5, 7, 9];
-        $array3 = [0, 2, 4, 6, 8];
-        $results = Octane::concurrently([
-            fn() => array_sum($array1),
-            fn() => array_sum($array2),
-            fn() => array_sum($array3),
-        ]);
-        $results = array_sum($results);*/
-
-        $commits = $response->json();
-        foreach($results?->toArray() ?? [] as $result) {
-            $commits = array_merge($commits, $result);
-        }
-        return response()->json(
-            $this->repository_commits_analyzer_service
-                ->analyzeRepositoryCommits($response->json(), ...$results?->toArray() ?? [])
-        );
-        return response()->json(
-            Carbon::parse($commits[0]["commit"]["committer"]["date"])
-                ->format("dmy")
-        );
-        return response()->json($commits);
-            //return response()->json($responses);
-
-
-        /*if($response->successful()) {
+        if($response->successful()) {
             return response()->json($response->json());
         } else {
             return response()->json([
                 "message" => "Failed to fetch repositories from Github"
             ], $response->status());
-        }*/
+        }
     }
 
     public function getRepositoryCommits(RepositoryDTO $repositoryDTO)
     {
-        /** @todo adicionar cache com redis pro repositoryid */
-        $repository = $this->repository_service->create($repositoryDTO);
         $since = $this->date_service->since(90);
+        $per_page = 100;
         $response = $this->createHttpClient()
             ->get("https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits", [
                 "page" => 1,
-                "per_page" => 1,
-                //"since" => $since
+                "per_page" => $per_page,
+                "since" => $since
             ]);
 
         try {
@@ -154,7 +95,7 @@ class GithubService
         $commits_urls = [];
         if($total_page_numbers > 1) {
             for($page = 2; $page <= $total_page_numbers; $page++) {
-                $commits_urls[] = "https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits?page={$page}&per_page=1";
+                $commits_urls[] = "https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits?page={$page}&per_page=$per_page&since={$since}";
             }
 
             $responses = $this->createHttpClient()->pool(function (Pool $pool) use ($commits_urls) {
@@ -168,23 +109,12 @@ class GithubService
                 ->map(
                     fn(Response $response) => $response->successful() ? $response->json() : $response->headers()
                 );
-
         }
 
-        $commits = $response->json();
-        foreach($results?->toArray() ?? [] as $result) {
-            $commits = array_merge($commits, $result);
-        }
         return response()->json(
             $this->repository_commits_analyzer_service
                 ->analyzeRepositoryCommits($response->json(), ...$results?->toArray() ?? [])
         );
-        return response()->json(
-            Carbon::parse($commits[0]["commit"]["committer"]["date"])
-                ->format("dmy")
-        );
-        return response()->json($commits);
-
     }
 
     private function createHttpClient(): PendingRequest
