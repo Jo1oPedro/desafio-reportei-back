@@ -26,6 +26,7 @@ class RepositoryCommitsAnalyzerService
                 $total_commit_per_day[$date] = $total_commits;
             }
         }
+        ksort($total_commit_per_day);
         return $total_commit_per_day;
     }
 
