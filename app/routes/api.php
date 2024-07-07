@@ -2,8 +2,6 @@
 
 use App\Http\Controllers\Api\GithubRepositoryCommitController;
 use App\Http\Controllers\Api\GithubRepositoryController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Api\PetPostController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
