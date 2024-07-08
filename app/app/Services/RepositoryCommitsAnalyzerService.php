@@ -10,6 +10,7 @@ use Laravel\Octane\Facades\Octane;
 class RepositoryCommitsAnalyzerService
 {
     public function __construct(
+        private CacheService $cacheService,
         private CommitService $commit_service
     ) {}
 
@@ -36,6 +37,14 @@ class RepositoryCommitsAnalyzerService
             }
         }
         ksort($total_commit_per_day);
+        $current_date_time = Carbon::now();
+        $endOfDay = $current_date_time->copy()->endOfDay();
+        $seconds_till_end_of_day = $current_date_time->diffInSeconds($endOfDay);
+        $this->cacheService->put(
+            $repository_id,
+            $total_commit_per_day,
+            $seconds_till_end_of_day
+        );
         return $total_commit_per_day;
     }
 
