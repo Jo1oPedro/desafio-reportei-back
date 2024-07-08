@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string("commit_id")->unique();
             $table->string("author_login");
             $table->string("author_id");
+            $table->string("repository_id");
             $table->date("commited_at");
             $table->timestamps();
         });
