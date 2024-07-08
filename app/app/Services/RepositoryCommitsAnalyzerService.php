@@ -2,11 +2,16 @@
 
 namespace App\Services;
 
+use App\DTO\CommitDTO;
 use Carbon\Carbon;
 use Laravel\Octane\Facades\Octane;
 
 class RepositoryCommitsAnalyzerService
 {
+    public function __construct(
+        private CommitService $commit_service
+    ) {}
+
     public function analyzeRepositoryCommits(array ...$jsons)
     {
         $tasks = [];
@@ -30,12 +35,19 @@ class RepositoryCommitsAnalyzerService
         return $total_commit_per_day;
     }
 
-    public function getTotalCommitsForEachDay(array $json)
+    private function getTotalCommitsForEachDay(array $json)
     {
         $totalCommits = [];
         foreach($json as $data) {
             $commit_date = Carbon::parse($data["commit"]["committer"]["date"])
-                ->format("dmy");
+                ->format("ymd");
+            $this->commit_service->create(new CommitDTO(
+                $data["node_id"],
+                $data["author"]["login"],
+                $data["author"]["id"],
+                1,
+                $commit_date
+            ));
             if(array_key_exists($commit_date, $totalCommits)) {
                 $totalCommits[$commit_date] += 1;
                 continue;
