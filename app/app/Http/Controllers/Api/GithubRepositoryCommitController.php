@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\DTO\RepositoryDTO;
 use App\Services\GithubService;
-use Illuminate\Http\Request;
 
 class GithubRepositoryCommitController
 {
@@ -12,15 +10,12 @@ class GithubRepositoryCommitController
         private GithubService $github_service
     ) {}
 
-    public function show(Request $request, string $owner_name, string $name, string $repository_id)
+    public function show(string $owner_name, string $repository_name, string $repository_id)
     {
-        $repository = new RepositoryDTO(
-            $name,
+        return $this->github_service->getRepositoryCommits(
             $owner_name,
-            auth()->user()->id,
+            $repository_name,
             $repository_id
         );
-
-        return $this->github_service->getRepositoryCommits($repository);
     }
 }
