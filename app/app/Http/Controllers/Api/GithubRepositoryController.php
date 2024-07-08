@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\DTO\PaginationDTO;
 use App\Services\GithubService;
 use Illuminate\Http\Request;
 
