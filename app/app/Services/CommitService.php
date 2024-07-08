@@ -14,6 +14,7 @@ class CommitService
             [
                 "author_login" => $commitDTO->getAuthorLogin(),
                 "author_id" => $commitDTO->getAuthorId(),
+                "repository_id" => $commitDTO->getRepositoryId(),
                 "commited_at" => $commitDTO->getCommitedAt()
             ]
         );
