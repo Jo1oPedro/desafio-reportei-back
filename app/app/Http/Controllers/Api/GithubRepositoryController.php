@@ -24,13 +24,12 @@ class GithubRepositoryController
         return $this->github_service->getUserRepositories($pagination, $cache);
     }
 
-    public function show(Request $request, string $owner_name, string $name, string $repository_id)
+    public function show(Request $request, string $repository_name)
     {
         $repository = new RepositoryDTO(
-            $name,
-            $owner_name,
-            auth()->user()->id,
-            $repository_id
+            $repository_name,
+            auth()->user()->github_login,
+            auth()->user()->id
         );
 
         return $this->github_service->getRepository($repository);
