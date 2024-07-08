@@ -26,16 +26,13 @@ class RepositoryCommitsAnalyzerService
             $results = Octane::concurrently($tasks);
         });
 
-        $total_commit_per_day = [];
+        $total_commit_per_day = $this->generateLast90Days();
         foreach($results as $result) {
             foreach($result as $date => $total_commits) {
-                if(array_key_exists($date, $total_commit_per_day)) {
-                    $total_commit_per_day[$date] += $total_commits;
-                    continue;
-                }
-                $total_commit_per_day[$date] = $total_commits;
+                $total_commit_per_day[$date] += $total_commits;
             }
         }
+
         ksort($total_commit_per_day);
         $current_date_time = Carbon::now();
         $endOfDay = $current_date_time->copy()->endOfDay();
@@ -70,4 +67,15 @@ class RepositoryCommitsAnalyzerService
         return $totalCommits;
     }
 
+    private function generateLast90Days(): array
+    {
+        $daysArray = [];
+        $startDate = Carbon::today();
+        for($i = 0; $i < 90; $i++) {
+            $dateKey = $startDate->copy()->subDays($i)->format("ymd");
+            $daysArray[$dateKey] = 0;
+        }
+
+        return $daysArray;
+    }
 }
