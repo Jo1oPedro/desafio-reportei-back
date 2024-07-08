@@ -2,9 +2,6 @@
 
 namespace App\Services;
 
-use App\DTO\PaginationDTO;
-use App\DTO\RepositoryDTO;
-use Carbon\Carbon;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Client\Response;
@@ -13,13 +10,12 @@ use Illuminate\Support\Facades\Http;
 class GithubService
 {
     public function __construct(
-        private RepositoryService $repository_service,
         private RepositoryCommitsAnalyzerService $repository_commits_analyzer_service,
         private CacheService $cache_service,
         private DateService $date_service
     ) {}
 
-    public function getUserRepositories(PaginationDTO $pagination, bool $cached = true)
+    public function getUserRepositories(string $page, string $per_page, bool $cached = true)
     {
         $httpClient = $this->createHttpClient();
         if($cached) {
@@ -35,36 +31,42 @@ class GithubService
 
         $response = $httpClient
             ->get("https://api.github.com/user/repos", [
-                "page" => $pagination->getPage(),
-                "per_page" => $pagination->getPerPage(),
+                "page" => $page,
+                "per_page" => $per_page,
                 "affiliation" => "owner"
             ]);
+
+        if(!$response->successful()) {
+            return response()->json([
+                "message" => $response->json("message")
+            ], $response->status());
+        }
 
         try {
             $total_pages_number = $this->getTotalPagesNumber($response->headers()["Link"][0]);
         } catch (\Exception $error) {
-            $total_pages_number = $pagination->getPage();
+            $total_pages_number = $page;
         }
 
-        if($response->successful()) {
-            return response()->json([
-                "repositories" => $response->json(),
-                "total_public_repositories" => $total_public_repositories,
-                "total_pages_number" => $total_pages_number,
-            ]);
-        } else {
-            return response()->json([
-                "message" => "Failed to fetch repositories from Github"
-            ], $response->status());
-        }
+        return response()->json([
+            "repositories" => $response->json(),
+            "total_public_repositories" => $total_public_repositories,
+            "total_pages_number" => $total_pages_number,
+        ]);
     }
 
-    public function getRepository(RepositoryDTO $repositoryDTO)
+    public function getRepository(string $owner_name, string $repository_name)
     {
         /** @todo adicionar cache com redis pro repositoryid */
-        $repository = $this->repository_service->create($repositoryDTO);
         $response = $this->createHttpClient()
-            ->get("https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}");
+            ->get("https://api.github.com/repos/{$owner_name}/{$repository_name}");
+
+        if(!$response->successful()) {
+            return response()->json(
+                ["message" => $response->json("message")],
+                $response->status()
+            );
+        }
 
         if($response->successful()) {
             return response()->json($response->json());
@@ -75,16 +77,23 @@ class GithubService
         }
     }
 
-    public function getRepositoryCommits(RepositoryDTO $repositoryDTO)
+    public function getRepositoryCommits(string $owner_name, string $repository_name, $repository_id)
     {
         $since = $this->date_service->since(90);
         $per_page = 100;
         $response = $this->createHttpClient()
-            ->get("https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits", [
+            ->get("https://api.github.com/repos/{$owner_name}/{$repository_name}/commits", [
                 "page" => 1,
                 "per_page" => $per_page,
                 "since" => $since
             ]);
+
+        if(!$response->successful()) {
+            return response()->json(
+                ["message" => $response->json("message")],
+                $response->status()
+            );
+        }
 
         try {
             $total_page_numbers = (int) $this->getTotalPagesNumber($response->headers()["Link"][0]);
@@ -95,7 +104,7 @@ class GithubService
         $commits_urls = [];
         if($total_page_numbers > 1) {
             for($page = 2; $page <= $total_page_numbers; $page++) {
-                $commits_urls[] = "https://api.github.com/repos/{$repositoryDTO->getOwnerName()}/{$repositoryDTO->getName()}/commits?page={$page}&per_page=$per_page&since={$since}";
+                $commits_urls[] = "https://api.github.com/repos/{$owner_name}/{$repository_name}/commits?page={$page}&per_page=$per_page&since={$since}";
             }
 
             $responses = $this->createHttpClient()->pool(function (Pool $pool) use ($commits_urls) {
@@ -113,7 +122,7 @@ class GithubService
 
         return response()->json(
             $this->repository_commits_analyzer_service
-                ->analyzeRepositoryCommits($response->json(), ...$results?->toArray() ?? [])
+                ->analyzeRepositoryCommits($repository_id, $response->json(), ...$results?->toArray() ?? [])
         );
     }
 
