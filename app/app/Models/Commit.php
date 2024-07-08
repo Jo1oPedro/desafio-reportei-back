@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,11 +21,16 @@ class Commit extends Model
         "commit_id",
         "author_login",
         "author_id",
-        'type',
-        "created_at"
+        "commited_at"
     ];
 
-    public function repository() {
-        return $this->belongsTo(Repository::class);
+    public function getCommitedAtAttribute($value)
+    {
+        return Carbon::parse($value)->format('ymd');
+    }
+
+    public function setCommitedAtAttribute($value)
+    {
+        $this->attributes['commited_at'] = Carbon::createFromFormat('ymd', $value)->format('Y-m-d');
     }
 }
