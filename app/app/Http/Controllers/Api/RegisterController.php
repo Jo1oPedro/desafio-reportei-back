@@ -42,12 +42,13 @@ class RegisterController extends Controller
      *         @OA\MediaType(
      *             mediaType="multipart/form-data",
      *             @OA\Schema(
-     *                 required={"name","email","password","password_confirmation"},
-     *                 @OA\Property(property="name", type="string", example="gabriel", description="User's email address. Must be unique."),
+     *                 required={"name","github_login","github_id","avatar_url","access_token"},
+     *                 @OA\Property(property="name", type="string", example="gabriel"),
      *                 @OA\Property(property="email", type="string", example="gabriel_nunes@example.org"),
+     *                 @OA\Property(property="github_login", type="string", example="#sdasd$ssdaAA@"),
+     *                 @OA\Property(property="github_id", type="string", example="#sdasd$ssdaAA@"),
      *                 @OA\Property(property="avatar_url", type="string", example="#sdasd$ssdaAA@"),
-     *                 @OA\Property(property="html_url", type="string", example="#sdasd$ssdaAA@"),
-     *                 @OA\Property(property="access_token", type="string", example="#sdasd$ssdaAA@"),
+     *                 @OA\Property(property="access_token", type="string", example="#sdasd$ssdaAA@", description="Token got from the github api"),
      *              )
      *         ),
      *     ),
@@ -56,16 +57,24 @@ class RegisterController extends Controller
      *         description="Token generated",
      *     @OA\JsonContent(
      *         @OA\Property(
-     *           property="token_type",
+     *           property="token",
      *           type="string",
-     *           enum={"bearer"},
+     *           example="112124alsglasg",
      *           description="The type of token"
      *          ),
      *          @OA\Property(
-     *            property="expires_in",
-     *            type="integer",
-     *            description="The expiration time of the token in minutes"
-     *          ),
+     *                  property="user",
+     *                  type="object",
+     *                  @OA\Property(property="github_id", type="string", example="#sdasd$ssdaAA@"),
+     *                  @OA\Property(property="name", type="string", example="gabriel"),
+     *                  @OA\Property(property="email", type="string", example="gabriel_nunes@example.org"),
+     *                  @OA\Property(property="avatar_url", type="string", example="#sdasd$ssdaAA@"),
+     *                  @OA\Property(property="github_login", type="string", example="#sdasd$ssdaAA@"),
+     *                  @OA\Property(property="access_token", type="string", example="#sdasd$ssdaAA@"),
+     *                  @OA\Property(property="updated_at", type="string", example="2024-07-08T21:53:43.000000Z"),
+     *                  @OA\Property(property="created_at", type="string", example="2024-07-08T21:53:43.000000Z"),
+     *                  @OA\Property(property="id", type="integer", example=1)
+     *              )
      *      )
      *     ),
      *     @OA\Response(
