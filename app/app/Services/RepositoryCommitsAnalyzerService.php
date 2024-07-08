@@ -26,23 +26,17 @@ class RepositoryCommitsAnalyzerService
             $results = Octane::concurrently($tasks);
         });
 
-        $total_commit_per_day = $this->generateLast90Days();
+        $total_commits_per_day = $this->generateLast90Days();
         foreach($results as $result) {
             foreach($result as $date => $total_commits) {
-                $total_commit_per_day[$date] += $total_commits;
+                $total_commits_per_day[$date] += $total_commits;
             }
         }
 
-        ksort($total_commit_per_day);
-        $current_date_time = Carbon::now();
-        $endOfDay = $current_date_time->copy()->endOfDay();
-        $seconds_till_end_of_day = $current_date_time->diffInSeconds($endOfDay);
-        $this->cacheService->put(
-            $repository_id,
-            $total_commit_per_day,
-            $seconds_till_end_of_day
-        );
-        return $total_commit_per_day;
+        ksort($total_commits_per_day);
+        $this->cacheResult($repository_id, $total_commits_per_day);
+
+        return $total_commits_per_day;
     }
 
     private function getTotalCommitsForEachDay(string $repository_id, array $json)
@@ -77,5 +71,17 @@ class RepositoryCommitsAnalyzerService
         }
 
         return $daysArray;
+    }
+
+    private function cacheResult(string $repository_id, array $total_commit_per_day)
+    {
+        $current_date_time = Carbon::now();
+        $endOfDay = $current_date_time->copy()->endOfDay();
+        $seconds_till_end_of_day = $current_date_time->diffInSeconds($endOfDay);
+        $this->cacheService->put(
+            $repository_id,
+            $total_commit_per_day,
+            $seconds_till_end_of_day
+        );
     }
 }
