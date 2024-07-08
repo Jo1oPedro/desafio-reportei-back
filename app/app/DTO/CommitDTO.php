@@ -10,7 +10,7 @@ class CommitDTO
         private string $commit_id,
         private string $author_login,
         private string $author_id,
-        private string $branch_id,
+        private string $repository_id,
         private string $commited_at
     ) {}
 
@@ -29,9 +29,9 @@ class CommitDTO
         return $this->author_id;
     }
 
-    public function getBranchId(): string
+    public function getRepositoryId(): string
     {
-        return $this->branch_id;
+        return $this->repository_id;
     }
 
     public function getCommitedAt(): string

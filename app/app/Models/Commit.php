@@ -21,6 +21,7 @@ class Commit extends Model
         "commit_id",
         "author_login",
         "author_id",
+        "repository_id",
         "commited_at"
     ];
 
