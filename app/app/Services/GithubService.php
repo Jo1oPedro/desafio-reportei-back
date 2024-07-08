@@ -77,9 +77,9 @@ class GithubService
         }
     }
 
-    public function getRepositoryCommits(string $owner_name, string $repository_name, $repository_id)
+    public function getRepositoryCommits(string $owner_name, string $repository_name, string $repository_id, string $cache)
     {
-        if($this->cache_service->has($repository_id)) {
+        if($cache !== "no-cache" && $this->cache_service->has($repository_id)) {
             return response()->json($this->cache_service->get($repository_id));
         };
         $since = $this->date_service->since(90);
