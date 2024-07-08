@@ -15,10 +15,10 @@ class GithubService
         private DateService $date_service
     ) {}
 
-    public function getUserRepositories(string $page, string $per_page, bool $cached = true)
+    public function getUserRepositories(string $page, string $per_page, string $cached)
     {
         $httpClient = $this->createHttpClient();
-        if($cached) {
+        if($cached !== "no-cache") {
             $total_public_repositories = $this->cache_service->remember("totalRepositories", function () use ($httpClient) {
                 $response = $httpClient->get("https://api.github.com/user");
                 return $response->json("public_repos");

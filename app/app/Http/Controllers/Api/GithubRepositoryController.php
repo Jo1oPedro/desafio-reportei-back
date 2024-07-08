@@ -14,7 +14,7 @@ class GithubRepositoryController
     {
         $page = $request->input('page', 1);
         $per_page = $request->input('per_page', 5);
-        $cache = (bool) $request->input("cache", true);
+        $cache = $request->header("Cache-Control", "cache");
 
         return $this->github_service->getUserRepositories(
             $page,
