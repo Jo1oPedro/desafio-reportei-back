@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\DTO\CommitDTO;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Laravel\Octane\Facades\Octane;
 
 class RepositoryCommitsAnalyzerService
@@ -12,14 +13,17 @@ class RepositoryCommitsAnalyzerService
         private CommitService $commit_service
     ) {}
 
-    public function analyzeRepositoryCommits(array ...$jsons)
+    public function analyzeRepositoryCommits(string $repository_id, array ...$jsons)
     {
         $tasks = [];
         foreach ($jsons as $json) {
-            $tasks[] = fn() => $this->getTotalCommitsForEachDay($json);
+            $tasks[] = fn() => $this->getTotalCommitsForEachDay($repository_id, $json);
         }
 
-        $results = Octane::concurrently($tasks);
+        $results = [];
+        DB::transaction(function () use (&$results, $tasks) {
+            $results = Octane::concurrently($tasks);
+        });
 
         $total_commit_per_day = [];
         foreach($results as $result) {
@@ -35,7 +39,7 @@ class RepositoryCommitsAnalyzerService
         return $total_commit_per_day;
     }
 
-    private function getTotalCommitsForEachDay(array $json)
+    private function getTotalCommitsForEachDay(string $repository_id, array $json)
     {
         $totalCommits = [];
         foreach($json as $data) {
@@ -45,7 +49,7 @@ class RepositoryCommitsAnalyzerService
                 $data["node_id"],
                 $data["author"]["login"],
                 $data["author"]["id"],
-                1,
+                $repository_id,
                 $commit_date
             ));
             if(array_key_exists($commit_date, $totalCommits)) {
