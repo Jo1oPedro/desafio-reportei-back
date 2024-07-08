@@ -79,6 +79,9 @@ class GithubService
 
     public function getRepositoryCommits(string $owner_name, string $repository_name, $repository_id)
     {
+        if($this->cache_service->has($repository_id)) {
+            return response()->json($this->cache_service->get($repository_id));
+        };
         $since = $this->date_service->since(90);
         $per_page = 100;
         $response = $this->createHttpClient()
