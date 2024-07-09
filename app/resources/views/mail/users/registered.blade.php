@@ -7,6 +7,7 @@
     Agradecemos por se cadastrar no Github Analyzer, a plataforma que te ajuda a analizar seus repositorios.
 
     Com o {{ config('app.name') }}, você pode:
+    . Visualizar um grafico informativo sobre um repositorio publico seu.
 
     Para começar, siga estes passos:
 
