@@ -154,11 +154,11 @@ class GithubRepositoryCommitController
      *       )
      *  )
      */
-    public function show(Request $request, string $owner_name, string $repository_name, string $repository_id)
+    public function show(Request $request, string $repository_name, string $repository_id)
     {
         $cache = $request->header("Cache-Control", "cache");
         return $this->github_service->getRepositoryCommits(
-            $owner_name,
+            auth()->user()->github_login,
             $repository_name,
             $repository_id,
             $cache
