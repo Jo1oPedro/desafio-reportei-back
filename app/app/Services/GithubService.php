@@ -19,15 +19,16 @@ class GithubService
     public function getUserRepositories(string $page, string $per_page, string $cached)
     {
         $httpClient = $this->createHttpClient();
+        $user_id = auth()->user()->id;
         if($cached !== "no-cache") {
-            $total_public_repositories = $this->cache_proxy->remember("totalRepositories", function () use ($httpClient) {
+            $total_public_repositories = $this->cache_proxy->remember("{$user_id}_totalRepositories", function () use ($httpClient) {
                 $response = $httpClient->get("https://api.github.com/user");
                 return $response->json("public_repos");
             });
         } else {
             $response = $httpClient->get("https://api.github.com/user");
             $total_public_repositories = $response->json("public_repos");
-            $this->cache_proxy->forget("totalRepositories")->put("totalRepositories", $total_public_repositories);
+            $this->cache_proxy->forget("{$user_id}_totalRepositories")->put("{$user_id}_totalRepositories", $total_public_repositories);
         }
 
         $response = $httpClient
