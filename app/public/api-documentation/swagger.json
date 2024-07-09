@@ -8,7 +8,7 @@
         "version": "1.0"
     },
     "paths": {
-        "/api/github/repository/commits/{owner_name}/{repository_name}/{repository_id}": {
+        "/api/github/repository/commits/{repository_name}/{repository_id}": {
             "get": {
                 "tags": [
                     "User's repository commits"
@@ -1415,7 +1415,7 @@
         "/api/register": {
             "post": {
                 "tags": [
-                    "User Register"
+                    "User"
                 ],
                 "summary": "Register a new user",
                 "description": "This endpoint register a new user and returns his autentication code",
@@ -1564,8 +1564,8 @@
             "description": "User's repositories"
         },
         {
-            "name": "User Register",
-            "description": "User Register"
+            "name": "User",
+            "description": "User"
         }
     ]
 }

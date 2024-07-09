@@ -9,7 +9,7 @@ class GithubRepositoryCommitController
 {
     /**
      * @OA\Get(
-     *      path="/api/github/repository/commits/{owner_name}/{repository_name}/{repository_id}",
+     *      path="/api/github/repository/commits/{repository_name}/{repository_id}",
      *      tags={"User's repository commits"},
      *      summary="Get user's repository commits",
      *      description="This endpoint returns a specified user repository commits",
