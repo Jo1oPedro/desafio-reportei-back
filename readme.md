@@ -15,7 +15,7 @@
 
 # Hospedagem
 
-- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio http://www.backend.ejsocial.com/ ou ip: http://85.31.62.148:8888/ para o nginx | (https://85.31.62.148:7070 | https://85.31.62.148:4080) para as instancias da api
+- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio http://backend.ejsocial.com/ ou ip: http://85.31.62.148:8888/ para o nginx | (https://85.31.62.148:7070 | https://85.31.62.148:4080) para as instancias da api
 - Configurações da vps:
     ```
   - Núcleos de CPU: 2
