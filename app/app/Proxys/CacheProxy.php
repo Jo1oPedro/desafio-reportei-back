@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Proxys;
 
 use Illuminate\Support\Facades\Cache;
 
-class CacheService
+class CacheProxy
 {
     public function get(string $key): mixed
     {
         return Cache::get($key);
     }
+
     public function put(string $key, mixed $value, int $seconds = 86400): mixed
     {
         return Cache::put($key, $value, $seconds);
@@ -20,7 +21,7 @@ class CacheService
         return Cache::remember($key, $seconds, $callback);
     }
 
-    public function forget(string $key): CacheService
+    public function forget(string $key): CacheProxy
     {
         Cache::forget($key);
         return $this;

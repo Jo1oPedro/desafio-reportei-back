@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Proxys\CacheProxy;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Pool;
 use Illuminate\Http\Client\Response;
@@ -11,7 +12,7 @@ class GithubService
 {
     public function __construct(
         private RepositoryCommitsAnalyzerService $repository_commits_analyzer_service,
-        private CacheService $cache_service,
+        private CacheProxy $cache_proxy,
         private DateService $date_service
     ) {}
 
@@ -19,14 +20,14 @@ class GithubService
     {
         $httpClient = $this->createHttpClient();
         if($cached !== "no-cache") {
-            $total_public_repositories = $this->cache_service->remember("totalRepositories", function () use ($httpClient) {
+            $total_public_repositories = $this->cache_proxy->remember("totalRepositories", function () use ($httpClient) {
                 $response = $httpClient->get("https://api.github.com/user");
                 return $response->json("public_repos");
             });
         } else {
             $response = $httpClient->get("https://api.github.com/user");
             $total_public_repositories = $response->json("public_repos");
-            $this->cache_service->forget("totalRepositories")->put("totalRepositories", $total_public_repositories);
+            $this->cache_proxy->forget("totalRepositories")->put("totalRepositories", $total_public_repositories);
         }
 
         $response = $httpClient
@@ -79,8 +80,8 @@ class GithubService
 
     public function getRepositoryCommits(string $owner_name, string $repository_name, string $repository_id, string $cache)
     {
-        if($cache !== "no-cache" && $this->cache_service->has($repository_id)) {
-            return response()->json($this->cache_service->get($repository_id));
+        if($cache !== "no-cache" && $this->cache_proxy->has($repository_id)) {
+            return response()->json($this->cache_proxy->get($repository_id));
         };
         $since = $this->date_service->since(90);
         $per_page = 100;
