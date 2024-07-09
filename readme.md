@@ -7,15 +7,14 @@
   - Swoole, 
   - Laravel,
   - Laravel Octane
-  - Redis, 
-  - Rabbitmq 
-  - SQL.
+  - Redis,
+  - SQL
   ```
 - Link para o repositório contendo o front do projeto: -
 
 # Hospedagem
 
-- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio https://www.ejsocial.com/ ou ip: http://85.31.62.148:9000/ | https://85.31.62.148:7000
+- Atualmente o sistema está hospedado em uma vps2 da hostinger sobre o domínio http://www.backend.ejsocial.com/ ou ip: http://85.31.62.148:8888/ para o nginx | (https://85.31.62.148:7070 | https://85.31.62.148:4080) para as instancias da api
 - Configurações da vps:
     ```
   - Núcleos de CPU: 2
@@ -30,7 +29,7 @@
 
 # Conteúdo da Imagem Docker
 
-- <b>PHP</b>, e diversas extensões e Libs do PHP, incluindo php-redis, mysql, swoole, memcached.
+- <b>PHP</b>, diversas extensões e Libs do PHP, incluindo php-redis, mysql, swoole, memcached.
 
 - <b>Composer</b>, afinal de contas é preciso baixar as dependências mais atuais toda vez que fomos crontruir uma imagem Docker.
 
