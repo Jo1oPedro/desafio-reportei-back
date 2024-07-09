@@ -17,7 +17,7 @@ class RepositoryCommitsAnalyzerService
     {
         $tasksConcurrently = [];
         $tasks = [];
-        foreach ($jsons as $key => $json) {
+        foreach ($jsons as $json) {
             if(count($json) === 1) {
                 $tasks[] = $json;
                 continue;
