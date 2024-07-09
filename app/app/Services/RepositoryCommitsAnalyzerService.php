@@ -26,7 +26,10 @@ class RepositoryCommitsAnalyzerService
             $tasksConcurrently[] = fn() => $this->getTotalCommitsForEachDay($repository_id, $json);
         }
 
-        $results = Octane::concurrently($tasksConcurrently);
+        $results = [];
+        if(count($tasksConcurrently)) {
+            $results = Octane::concurrently($tasksConcurrently);
+        }
 
         foreach($tasks as $task) {
             $results[] = $this->getTotalCommitsForEachDay($repository_id, $task);
