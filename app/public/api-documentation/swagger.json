@@ -8,6 +8,444 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/github/repository/commits/{owner_name}/{repository_name}/{repository_id}": {
+            "get": {
+                "tags": [
+                    "User's repository commits"
+                ],
+                "summary": "Get user's repository commits",
+                "description": "This endpoint returns a specified user repository commits",
+                "operationId": "getUserRepositoryCommits",
+                "parameters": [
+                    {
+                        "name": "Cache-Control",
+                        "in": "header",
+                        "description": "Cache control header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "cache",
+                                "no-cache"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "repository_name",
+                        "in": "path",
+                        "description": "The name of the repository",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "repository_id",
+                        "in": "path",
+                        "description": "The id of the repository",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "240411": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240412": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240413": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240414": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240415": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240416": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240417": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240418": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240419": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240420": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240421": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240422": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240423": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240424": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240425": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240426": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240427": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240428": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240429": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240430": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240501": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240502": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240503": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240504": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240505": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240506": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240507": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240508": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240509": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240510": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240511": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240512": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240513": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240514": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240515": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240516": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240517": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240518": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240519": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240520": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240521": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240522": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240523": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240524": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240525": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240526": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240527": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240528": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240529": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240530": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240531": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240601": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240602": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240603": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240604": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240605": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240606": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240607": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240608": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240609": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240610": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240611": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240612": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240613": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240614": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240615": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240616": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240617": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240618": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240619": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240620": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240621": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240622": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240623": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240624": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240625": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240626": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240627": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240628": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240629": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240630": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240701": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240702": {
+                                            "type": "integer",
+                                            "example": 0
+                                        },
+                                        "240703": {
+                                            "type": "integer",
+                                            "example": 23
+                                        },
+                                        "240704": {
+                                            "type": "integer",
+                                            "example": 16
+                                        },
+                                        "240705": {
+                                            "type": "integer",
+                                            "example": 11
+                                        },
+                                        "240706": {
+                                            "type": "integer",
+                                            "example": 13
+                                        },
+                                        "240707": {
+                                            "type": "integer",
+                                            "example": 9
+                                        },
+                                        "240708": {
+                                            "type": "integer",
+                                            "example": 25
+                                        },
+                                        "240709": {
+                                            "type": "integer",
+                                            "example": 4
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Git repository is empty.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Git Repository is empty."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/github/repositories": {
             "get": {
                 "tags": [
@@ -17,6 +455,19 @@
                 "description": "This endpoint returns all public user's repositories",
                 "operationId": "getUserRepositories",
                 "parameters": [
+                    {
+                        "name": "Cache-Control",
+                        "in": "header",
+                        "description": "Cache control header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "cache",
+                                "no-cache"
+                            ]
+                        }
+                    },
                     {
                         "name": "page",
                         "in": "query",
@@ -35,19 +486,6 @@
                         "schema": {
                             "type": "integer",
                             "default": 5
-                        }
-                    },
-                    {
-                        "name": "Cache-Control",
-                        "in": "header",
-                        "description": "Cache control header",
-                        "required": false,
-                        "schema": {
-                            "type": "string",
-                            "enum": [
-                                "cache",
-                                "no-cache"
-                            ]
                         }
                     }
                 ],
@@ -494,7 +932,7 @@
         "/api/github/repository/{repository_name}": {
             "get": {
                 "tags": [
-                    "User's repository"
+                    "User's repositories"
                 ],
                 "summary": "Get user's repository",
                 "description": "This endpoint returns a specified user repository",
@@ -1118,12 +1556,12 @@
     },
     "tags": [
         {
-            "name": "User's repositories",
-            "description": "User's repositories"
+            "name": "User's repository commits",
+            "description": "User's repository commits"
         },
         {
-            "name": "User's repository",
-            "description": "User's repository"
+            "name": "User's repositories",
+            "description": "User's repositories"
         },
         {
             "name": "User Register",

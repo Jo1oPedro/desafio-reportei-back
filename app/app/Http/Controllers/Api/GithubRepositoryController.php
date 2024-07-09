@@ -19,6 +19,16 @@ class GithubRepositoryController
      *      operationId="getUserRepositories",
      *      security={{"bearerAuth":{}}},
      *      @OA\Parameter(
+     *           name="Cache-Control",
+     *           in="header",
+     *           description="Cache control header",
+     *           required=false,
+     *           @OA\Schema(
+     *               type="string",
+     *               enum={"cache", "no-cache"}
+     *           )
+     *       ),
+     *      @OA\Parameter(
      *          name="page",
      *          in="query",
      *          description="Page number",
@@ -36,16 +46,6 @@ class GithubRepositoryController
      *          @OA\Schema(
      *              type="integer",
      *              default=5
-     *          )
-     *      ),
-     *      @OA\Parameter(
-     *          name="Cache-Control",
-     *          in="header",
-     *          description="Cache control header",
-     *          required=false,
-     *          @OA\Schema(
-     *              type="string",
-     *              enum={"cache", "no-cache"}
      *          )
      *      ),
      *      @OA\Response(
@@ -176,7 +176,7 @@ class GithubRepositoryController
     /**
      * @OA\Get(
      *      path="/api/github/repository/{repository_name}",
-     *      tags={"User's repository"},
+     *      tags={"User's repositories"},
      *      summary="Get user's repository",
      *      description="This endpoint returns a specified user repository",
      *      operationId="getUserRepository",
