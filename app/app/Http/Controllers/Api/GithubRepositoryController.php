@@ -318,7 +318,6 @@ class GithubRepositoryController
      */
     public function show(string $repository_name)
     {
-        response()->json($repository_name);
         return $this->github_service->getRepository(
             auth()->user()->github_login,
             $repository_name
