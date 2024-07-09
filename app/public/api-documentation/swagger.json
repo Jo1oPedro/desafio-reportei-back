@@ -8,12 +8,495 @@
         "version": "1.0"
     },
     "paths": {
+        "/api/github/repositories": {
+            "get": {
+                "tags": [
+                    "User's repositories"
+                ],
+                "summary": "Get user's repositories",
+                "description": "This endpoint returns all public user's repositories",
+                "operationId": "getUserRepositories",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 5
+                        }
+                    },
+                    {
+                        "name": "Cache-Control",
+                        "in": "header",
+                        "description": "Cache control header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "cache",
+                                "no-cache"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 9999999999
+                                            },
+                                            "node_id": {
+                                                "type": "string",
+                                                "example": "Q_agDafert8g"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "desafio-reportei-back"
+                                            },
+                                            "full_name": {
+                                                "type": "string",
+                                                "example": "Jo1oPedro/desafio-reportei-back"
+                                            },
+                                            "private": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "owner": {
+                                                "properties": {
+                                                    "login": {
+                                                        "type": "string",
+                                                        "example": "Jo1oPedro"
+                                                    },
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 9999999999
+                                                    },
+                                                    "node_id": {
+                                                        "type": "string",
+                                                        "example": "MDQ6TQHlcjg8asLwODI6"
+                                                    },
+                                                    "avatar_url": {
+                                                        "type": "string",
+                                                        "example": "https://avatars.githubusercontent.com/u/9999999999?v=4"
+                                                    },
+                                                    "gravatar_id": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro"
+                                                    },
+                                                    "html_url": {
+                                                        "type": "string",
+                                                        "example": "https://github.com/Jo1oPedro"
+                                                    },
+                                                    "followers_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/followers"
+                                                    },
+                                                    "following_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/following{/other_user}"
+                                                    },
+                                                    "gists_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/gists{/gist_id}"
+                                                    },
+                                                    "starred_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/starred{/owner}{/repo}"
+                                                    },
+                                                    "subscriptions_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/subscriptions"
+                                                    },
+                                                    "organizations_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/orgs"
+                                                    },
+                                                    "repos_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/repos"
+                                                    },
+                                                    "events_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/events{/privacy}"
+                                                    },
+                                                    "received_events_url": {
+                                                        "type": "string",
+                                                        "example": "https://api.github.com/users/Jo1oPedro/received_events"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "User"
+                                                    },
+                                                    "site_admin": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "html_url": {
+                                                "type": "string",
+                                                "example": "https://github.com/Jo1oPedro/desafio-reportei-back"
+                                            },
+                                            "description": {
+                                                "type": "string",
+                                                "example": null
+                                            },
+                                            "fork": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back"
+                                            },
+                                            "forks_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/forks"
+                                            },
+                                            "keys_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/keys{/key_id}"
+                                            },
+                                            "collaborators_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/collaborators{/collaborator}"
+                                            },
+                                            "teams_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/teams"
+                                            },
+                                            "hooks_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/hooks"
+                                            },
+                                            "issue_events_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/issues/events{/number}"
+                                            },
+                                            "events_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/events"
+                                            },
+                                            "assignees_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/assignees{/user}"
+                                            },
+                                            "branches_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/branches{/branch}"
+                                            },
+                                            "tags_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/tags"
+                                            },
+                                            "blobs_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/git/blobs{/sha}"
+                                            },
+                                            "git_tags_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/git/tags{/sha}"
+                                            },
+                                            "git_refs_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/git/refs{/sha}"
+                                            },
+                                            "trees_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/git/trees{/sha}"
+                                            },
+                                            "statuses_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/statuses/{sha}"
+                                            },
+                                            "languages_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/languages"
+                                            },
+                                            "stargazers_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/stargazers"
+                                            },
+                                            "contributors_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/contributors"
+                                            },
+                                            "subscribers_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/subscribers"
+                                            },
+                                            "subscription_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/subscription"
+                                            },
+                                            "commits_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/commits{/sha}"
+                                            },
+                                            "git_commits_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/git/commits{/sha}"
+                                            },
+                                            "comments_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/comments{/number}"
+                                            },
+                                            "issue_comment_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/issues/comments{/number}"
+                                            },
+                                            "contents_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/contents/{+path}"
+                                            },
+                                            "compare_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/compare/{base}...{head}"
+                                            },
+                                            "merges_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/merges"
+                                            },
+                                            "archive_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/{archive_format}{/ref}"
+                                            },
+                                            "downloads_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/downloads"
+                                            },
+                                            "issues_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/issues{/number}"
+                                            },
+                                            "pulls_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/pulls{/number}"
+                                            },
+                                            "milestones_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/milestones{/number}"
+                                            },
+                                            "notifications_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/notifications{?since,all,participating}"
+                                            },
+                                            "labels_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/labels{/name}"
+                                            },
+                                            "releases_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/releases{/id}"
+                                            },
+                                            "deployments_url": {
+                                                "type": "string",
+                                                "example": "https://api.github.com/repos/Jo1oPedro/desafio-reportei-back/deployments"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "example": "2023-05-29T14:53:54Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "example": "2023-05-29T14:53:54Z"
+                                            },
+                                            "pushed_at": {
+                                                "type": "string",
+                                                "example": "2023-06-03T14:16:44Z"
+                                            },
+                                            "git_url": {
+                                                "type": "string",
+                                                "example": "git://github.com/Jo1oPedro/desafio-reportei-back.git"
+                                            },
+                                            "ssh_url": {
+                                                "type": "string",
+                                                "example": "git@github.com:Jo1oPedro/desafio-reportei-back.git"
+                                            },
+                                            "clone_url": {
+                                                "type": "string",
+                                                "example": "https://github.com/Jo1oPedro/desafio-reportei-back.git"
+                                            },
+                                            "svn_url": {
+                                                "type": "string",
+                                                "example": "https://github.com/Jo1oPedro/desafio-reportei-back"
+                                            },
+                                            "homepage": {
+                                                "type": "string",
+                                                "example": null
+                                            },
+                                            "size": {
+                                                "type": "integer",
+                                                "example": 67
+                                            },
+                                            "stargazers_count": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "watchers_count": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "language": {
+                                                "type": "string",
+                                                "example": "PHP"
+                                            },
+                                            "has_issues": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "has_projects": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "has_downloads": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "has_wiki": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "has_pages": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "has_discussions": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "forks_count": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "mirror_url": {
+                                                "type": "string",
+                                                "example": null
+                                            },
+                                            "archived": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "disabled": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "open_issues_count": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "license": {
+                                                "type": "object",
+                                                "nullable": true
+                                            },
+                                            "allow_forking": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "is_template": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "web_commit_signoff_required": {
+                                                "type": "boolean",
+                                                "example": false
+                                            },
+                                            "topics": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "visibility": {
+                                                "type": "string",
+                                                "example": "public"
+                                            },
+                                            "forks": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "open_issues": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "watchers": {
+                                                "type": "integer",
+                                                "example": 0
+                                            },
+                                            "default_branch": {
+                                                "type": "string",
+                                                "example": "main"
+                                            },
+                                            "permissions": {
+                                                "properties": {
+                                                    "admin": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "maintain": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "push": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "triage": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "pull": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/github/repository/{repository_name}": {
             "get": {
                 "tags": [
                     "User's repository"
                 ],
-                "summary": "Get user repository",
+                "summary": "Get user's repository",
                 "description": "This endpoint returns a specified user repository",
                 "operationId": "getUserRepository",
                 "parameters": [
@@ -634,6 +1117,10 @@
         }
     },
     "tags": [
+        {
+            "name": "User's repositories",
+            "description": "User's repositories"
+        },
         {
             "name": "User's repository",
             "description": "User's repository"
