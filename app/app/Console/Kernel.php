@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->command("app:clear-commits-older-than90-days")->dailyAt("00:01");
     }
 
     /**
