@@ -71,7 +71,7 @@ class RepositoryCommitsAnalyzerService
     {
         $days_array = [];
         $start_date = Carbon::today();
-        for($i = 0; $i < 90; $i++) {
+        for($i = 0; $i <= 90; $i++) {
             $dateKey = $start_date->copy()->subDays($i)->format("ymd");
             $days_array[$dateKey] = 0;
         }
