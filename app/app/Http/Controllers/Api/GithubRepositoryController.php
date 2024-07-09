@@ -1,15 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\Services\GithubService;
+use App\Facades\Github;
 use Illuminate\Http\Request;
 
 class GithubRepositoryController
 {
-    public function __construct(
-        private GithubService $github_service
-    ) {}
-
     /**
      * @OA\Get(
      *      path="/api/github/repositories",
@@ -166,7 +162,7 @@ class GithubRepositoryController
         $per_page = $request->input('per_page', 5);
         $cache = $request->header("Cache-Control", "cache");
 
-        return $this->github_service->getUserRepositories(
+        return Github::getUserRepositories(
             $page,
             $per_page,
             $cache
@@ -318,7 +314,7 @@ class GithubRepositoryController
      */
     public function show(string $repository_name)
     {
-        return $this->github_service->getRepository(
+        return Github::getRepository(
             auth()->user()->github_login,
             $repository_name
         );

@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Services\GithubService;
+use App\Facades\Github;
 use Illuminate\Http\Request;
 
 class GithubRepositoryCommitController
 {
-    public function __construct(
-        private GithubService $github_service
-    ) {}
-
     /**
      * @OA\Get(
      *      path="/api/github/repository/commits/{owner_name}/{repository_name}/{repository_id}",
@@ -157,7 +153,7 @@ class GithubRepositoryCommitController
     public function show(Request $request, string $repository_name, string $repository_id)
     {
         $cache = $request->header("Cache-Control", "cache");
-        return $this->github_service->getRepositoryCommits(
+        return Github::getRepositoryCommits(
             auth()->user()->github_login,
             $repository_name,
             $repository_id,
