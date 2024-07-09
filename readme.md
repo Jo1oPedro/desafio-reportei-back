@@ -1,8 +1,9 @@
 # Sobre
 
 - Repositório da Api responsável pelo desafio da reportei.
-- Com o foco em analisar os dados deq repositorios do github:
-  ```
+- Com o foco em analisar os dados dos repositorios do github
+- Tecnologias:
+- ```
   - PHP, 
   - Swoole, 
   - Laravel,
@@ -10,7 +11,7 @@
   - Redis,
   - SQL
   ```
-- Link para o repositório contendo o front do projeto: -
+- Link para o repositório contendo o front do projeto: https://github.com/Jo1oPedro/desafio-reportei-front
 
 # Hospedagem
 
